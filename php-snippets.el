@@ -40,6 +40,16 @@
   (insert (concat "if (" test ")"))
   (php-block))
 
+(defun php-else ()
+  (interactive)
+  (insert "else")
+  (php-block))
+
+(defun php-elseif (test)
+  (interactive "MEnter a boolean: ")
+  (insert "else ")
+  (php-if test))
+
 (defun php-for (max &optional var)
   (interactive "MEnter the max value: \nMEnter var name: ")
   (when (empty-p var)
@@ -58,6 +68,21 @@
     (insert (concat key " => ")))    
   (insert (concat var ")"))
   (php-block))
+
+(defun php-while (test)
+  (interactive "MEnter a boolean: ")
+  (insert (concat "while (" test ")"))
+  (php-block))
+
+(defun php-do-while (test)
+  (interactive "MEnter a boolean: ")
+  (insert "do")
+  (insert " {")
+  (newline 2)
+  (insert "}")
+  (let ((while-part (concat " while (" test ");")))
+    (insert while-part)
+    (backward-char (+ (length while-part) 2))))
 
 (defun php-fn (name args)
   (interactive "MEnter name of fn: \nMEnter list of args: ")
