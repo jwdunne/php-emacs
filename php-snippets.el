@@ -15,11 +15,16 @@
 
 ;; Public domain
 
+(defvar php-brace-new-line nil)
+
 (defun empty-p (str)
   (string= str ""))
 
 (defun php-block ()
-  (insert " {")
+  (if php-brace-new-line
+      (newline)
+    (insert " "))
+  (insert "{")
   (newline 2)
   (insert "}")
   (backward-char 2))
