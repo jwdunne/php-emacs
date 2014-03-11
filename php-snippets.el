@@ -103,4 +103,11 @@
   (insert "public ")
   (php-fn "__construct" args))
 
+(defun php-lam (&optional args vars)
+  (interactive "MEnter list of args: \nMEnter list of closure vars: ")
+  (insert (concat "function (" (php-args args) ")"))
+  (unless (empty-p vars)
+    (insert (concat " use (" (php-args vars) ")")))
+  (php-block))
+
 (provide 'php-snippets)
