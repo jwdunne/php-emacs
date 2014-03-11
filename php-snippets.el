@@ -8,7 +8,12 @@
 ;;; Commentary
 
 ;; Defines various emacs commands which expand into common PHP constructs
-;; such as class, function, for and if. 
+;; such as class, function, for and if. This aids in writing less PHP
+;; which saves time.
+
+;;; License
+
+;; Public domain
 
 (defun empty-p (str)
   (string= str ""))

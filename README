@@ -1,0 +1,75 @@
+Provides a bunch of tools for authoring and maintaining PHP. This
+includes code generation AND manipulation.
+
+# Code Generation
+
+## Snippets 
+
+Currently, the only feature is snippets, which gives various commands
+that can be bound to hotkeys or invoked using M-x, such as:
+
+- php-if - if statement which prompts for a test e.g $test == true
+- php-for - for statement which prompts for max value and optional var
+- php-foras - for as statement, which accepts collection, var and key names
+- php-fn - function takes name and list of args separated by spaces
+- php-class - takes class name and optional parent class name
+- php-const - constructor, which takes optional list of args
+
+Each function assumes common usage of each statement.
+
+### Todo
+
+- while, do...while snippets to complete looping constructs
+- lambdas, which take args and optional var list to close over
+- auto-indent snippets, currently just splats right in without indent
+- configurable brace placement + whitespacing
+
+## Templating _TODO_
+
+Should allow generation of code based on a given template, allowing
+for a simple templating languag to be used. Should also allow for a
+list to be fed into a generator. For example, given a list of
+controllers "Posts", "Categories", "Tags", "Users" and each must
+extend AppController, the templating system would pass in '(("Posts"
+"Categories" "Tags" "Users") "App") to:
+
+  class #{1}Controller extends #{2}Controller {
+    
+    public function __construct() {
+
+    }
+    
+  }
+
+and generate 4 separate classes, like so:
+  
+  class PostsController extends AppController {
+    
+    public function __construct() {
+
+    }
+    
+  }
+
+  ...
+
+  class UsersController extends AppController {
+    
+    public function __construct() {
+
+    }
+    
+  }
+
+Support to spread this over separate files would be beneficial.
+
+### TODO
+
+- Flesh out other code gen. ideas
+
+# Code Manipulation
+
+# Error Detection (cross-version)
+
+# Function/Class auto-complete
+## Internal project indexer
