@@ -35,79 +35,96 @@
 (defun php-args (args)
   (php-make-args (php-parse-args args)))
 
+(defmacro php-indent-code (&rest forms)
+  (let ((temp (make-symbol "begin")))
+    `(let ((,temp (point)))
+       ,@forms
+       (indent-region ,temp (+ (point) 2)))))
+
 (defun php-if (test)
   (interactive "MEnter a boolean: ")
-  (insert (concat "if (" test ")"))
-  (php-block))
+  (php-indent-code
+   (insert (concat "if (" test ")"))
+   (php-block)))
 
 (defun php-else ()
   (interactive)
-  (insert "else")
-  (php-block))
+    (php-indent-code
+     (insert "else")
+     (php-block)))
 
 (defun php-elseif (test)
   (interactive "MEnter a boolean: ")
-  (insert "else ")
-  (php-if test))
+  (php-indent-code
+   (insert "else ")
+   (php-if test)))
 
 (defun php-for (max &optional var)
   (interactive "MEnter the max value: \nMEnter var name: ")
-  (when (empty-p var)
-    (setq var "$i"))
-  (insert (concat "for (" 
-                  var " = 0; "
-                  var " < " max "; "
-                  var "++)"))
-  (php-block))
+  (php-indent-code
+   (when (empty-p var)
+     (setq var "$i"))
+   (insert (concat "for (" 
+                   var " = 0; "
+                   var " < " max "; "
+                   var "++)"))
+   (php-block)))
 
 (defun php-foras (assoc var &optional key)
   (interactive "MEnter name of assoc: \nMEnter varname: \nMEnter key (optional): ")
-  (insert "for (")
-  (insert (concat assoc " as "))
-  (unless (empty-p key)
-    (insert (concat key " => ")))    
-  (insert (concat var ")"))
-  (php-block))
+  (php-indent-code
+   (insert "for (")
+   (insert (concat assoc " as "))
+   (unless (empty-p key)
+     (insert (concat key " => ")))    
+   (insert (concat var ")"))
+   (php-block)))
 
 (defun php-while (test)
   (interactive "MEnter a boolean: ")
-  (insert (concat "while (" test ")"))
-  (php-block))
+  (php-indent-code
+   (insert (concat "while (" test ")"))
+   (php-block)))
 
 (defun php-do-while (test)
   (interactive "MEnter a boolean: ")
-  (insert "do")
-  (insert " {")
-  (newline 2)
-  (insert "}")
-  (let ((while-part (concat " while (" test ");")))
-    (insert while-part)
-    (backward-char (+ (length while-part) 2))))
-
+  (php-indent-code
+   (insert "do")
+   (insert " {")
+   (newline 2)
+   (insert "}")
+   (let ((while-part (concat " while (" test ");")))
+     (insert while-part)
+     (backward-char (+ (length while-part) 2)))))
+  
 (defun php-fn (name args)
   (interactive "MEnter name of fn: \nMEnter list of args: ")
-    (insert (concat "function " name "("
-                    (php-args args)
-                    ")"))
-    (php-block))
+  (php-indent-code
+   (insert (concat "function " name "("
+                   (php-args args)
+                   ")"))
+   (php-block)))
 
 (defun php-class (name &optional extends)
   (interactive "MEnter class name: \nMEnter parent: ")
-  (insert (concat "class " name))
-  (unless (empty-p extends)
-    (insert (concat " extends " extends)))
-  (php-block))
+  (php-indent-code
+   (insert (concat "class " name))
+   (unless (empty-p extends)
+     (insert (concat " extends " extends)))
+   (php-block)))
 
 (defun php-const (&optional args)
   (interactive "MEnter list of args: ")
-  (insert "public ")
-  (php-fn "__construct" args))
+  (php-indent-code
+   (insert "public ")
+   (php-fn "__construct" args)))
 
 (defun php-lam (&optional args vars)
   (interactive "MEnter list of args: \nMEnter list of closure vars: ")
-  (insert (concat "function (" (php-args args) ")"))
-  (unless (empty-p vars)
-    (insert (concat " use (" (php-args vars) ")")))
-  (php-block))
+  (php-indent-code
+    (insert (concat "function (" (php-args args) ")"))
+    (unless (empty-p vars)
+      (insert (concat " use (" (php-args vars) ")")))
+    (php-block)))
 
 (provide 'php-snippets)
