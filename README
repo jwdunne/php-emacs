@@ -63,6 +63,14 @@ and generate 4 separate classes, like so:
 
 Support to spread this over separate files would be beneficial.
 
+Allow support for the following steps:
+
+- writing a template right in the editor
+- select the template
+- call generate command and pass in substitutions
+
+This will expand the code in place.
+
 ### TODO
 
 - Flesh out other code gen. ideas
